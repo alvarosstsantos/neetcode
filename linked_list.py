@@ -15,15 +15,16 @@ class LinkedList:
         self.tail = None
 
     def get(self, index: int) -> int:
-        curr = None
+        curr = self.head
+        i = 0
 
-        for i in range(0, index + 1):
-            curr = curr.next if curr else self.head
+        while curr:
+            if i == index:
+                return curr.value
+            i += 1
+            curr = curr.next
 
-            if not curr:
-                return -1
-
-        return curr.value
+        return -1
 
     def insertHead(self, value: int) -> None:
         node = Node(value, self.head)

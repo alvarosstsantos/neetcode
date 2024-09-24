@@ -70,9 +70,45 @@ class BrowserHistory(object):
         return self.curr.url
 
 
+class EfficientBrowserHistory(object):
+
+    def __init__(self, homepage):
+        """
+        :type homepage: str
+        """
+        self.history = [homepage]
+        self.top = self.curr = 0
+
+    def visit(self, url):
+        """
+        :type url: str
+        :rtype: None
+        """
+        self.top = self.curr = self.curr + 1
+        self.history = self.history[:self.curr] + [url]
+
+    def back(self, steps):
+        """
+        :type steps: int
+        :rtype: str
+        """
+
+        self.curr = self.curr - steps if self.curr - steps >= 0 else 0
+        return self.history[self.curr]
+
+    def forward(self, steps):
+        """
+        :type steps: int
+        :rtype: str
+        """
+
+        self.curr = self.curr + steps if self.curr + steps <= self.top else self.top
+        return self.history[self.curr]
+
+
 if __name__ == "__main__":
 
-    history = BrowserHistory("leetcode.com")
+    history = EfficientBrowserHistory("leetcode.com")
     assert history.back(0) == "leetcode.com"
     assert history.back(1) == "leetcode.com"
     assert history.back(2) == "leetcode.com"
